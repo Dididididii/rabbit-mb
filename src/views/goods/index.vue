@@ -17,15 +17,7 @@
         </header>
         <main>
             <div class="goodsitem">
-                <van-swipe @change="onChange" class="my-swipe">
-                    <van-swipe-item>1</van-swipe-item>
-                    <van-swipe-item>2</van-swipe-item>
-                    <van-swipe-item>3</van-swipe-item>
-                    <van-swipe-item>4</van-swipe-item>
-                    <template #indicator>
-                        <div class="custom-indicator">{{ current + 1 }}/4</div>
-                    </template>
-                </van-swipe>
+                <xtxSwipeVue :indicator="true" :images="list" :preview="true"/>
             </div>
             <div class="card">
                 <div class="toprail">
@@ -277,13 +269,16 @@
 </template>
 
 <script>
+import xtxSwipeVue from '@/components/xtx-swipe.vue'
 export default {
   name: 'xtx-goods',
+  components: { xtxSwipeVue },
   data () {
     return {
       value: '',
       current: 0,
       show: false,
+      list: ['https://yanxuan-item.nosdn.127.net/55176dfd19ad8dfae618959d18d7c481.png', 'https://yanxuan-item.nosdn.127.net/9be82942066b0700da3a68609700bde3.png', 'https://yanxuan-item.nosdn.127.net/392b39106a8c87b18ee8b0eb782292ce.png'],
       sku: {
         // 所有sku规格类目与其值的从属关系，比如商品有颜色和尺码两大类规格，颜色下面又有红色和蓝色两个规格值。
         // 可以理解为一个商品可以有多个规格类目，一个规格类目下可以有多个规格值。
@@ -387,13 +382,6 @@ export default {
         background: rgba(0, 0, 0, 0.1);
         color:#fff;
     }
-     .my-swipe .van-swipe-item {
-    color: #fff;
-    font-size: 20px;
-    line-height: 150px;
-    text-align: center;
-    background-color: #39a9ed;
-  }
   .card{
     // height: 105px;
     padding-bottom: 10px;
