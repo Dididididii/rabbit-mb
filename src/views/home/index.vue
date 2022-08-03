@@ -1,5 +1,8 @@
 <template>
   <div>
+    <!-- 导航 -->
+    <xtxNavBarVue />
+    <!-- 头部搜索框 -->
     <header>
     <!-- 搜索框 -->
     <van-sticky>
@@ -23,70 +26,71 @@
   <van-swipe-item>3</van-swipe-item>
   <van-swipe-item>4</van-swipe-item>
 </van-swipe>
-  </header>
-  <main>
-    <!-- 新鲜好物 -->
-    <div>
-      <h1 class="title">新鲜好物 <small>新鲜出炉 品质靠谱</small></h1>
-    <van-grid :border="true" :column-num="2" :gutter="5">
-  <van-grid-item v-for="(i,index) in 4" :key="index" :to="`/goods?id=${index}`">
-    <div class="box">
-        <a href="javascript:;" class="img">
-            <van-image fit="cover" src="https://yanxuan-item.nosdn.127.net/21d2e9b754487aa3030ce105493a9473.jpg" />
-        </a>
-        <a href="#" class="detailed">
-            <span class="title">加绒加厚，儿童保暖时尚卫衣套装73-120cm</span>
-            <span class="price">￥299</span>
-        </a>
-    </div>
-  </van-grid-item>
-  </van-grid>
-    </div>
-    <!-- 人气推荐 -->
-    <div>
-      <h1 class="title">人气推荐 <small>人气爆款 不容错过</small></h1>
-      <van-swipe :autoplay="3000">
-        <van-swipe-item v-for="(image, index) in images" :key="index">
-          <van-image fit="contain" v-lazy="image" :src="image" />
-        </van-swipe-item>
-      </van-swipe>
-    </div>
-    <!-- 热门品牌 -->
-    <div>
-      <h1 class="title">热门品牌 <small>国际经典 品质保证</small></h1>
-      <van-swipe :autoplay="3000">
-        <van-swipe-item v-for="(hot, index) in hots" :key="index">
-          <van-image fit="contain" v-lazy="hot" :src="hot" />
-        </van-swipe-item>
-      </van-swipe>
-    </div>
-    <!-- 猜你喜欢 -->
-    <div class="like">
-      <h1 class="title">----猜你喜欢----</h1>
+    </header>
+    <!-- 主体内容 -->
+    <main>
+      <!-- 新鲜好物 -->
+      <div>
+        <h1 class="title">新鲜好物 <small>新鲜出炉 品质靠谱</small></h1>
       <van-grid :border="true" :column-num="2" :gutter="5">
-  <van-grid-item v-for="(i,index) in 6" :key="index" :to="`/goods?id=${index}`">
-    <div class="box" >
-        <a href="javascript:;" class="img">
-            <van-image fit="contain" src="https://yanxuan-item.nosdn.127.net/21d2e9b754487aa3030ce105493a9473.jpg" />
-        </a>
-        <a href="javascript:;" class="detailed">
-            <span class="title">加绒加厚，儿童保暖时尚卫衣套装73-120cm</span>
-            <span class="price">￥299</span>
-        </a>
-    </div>
-  </van-grid-item>
-  </van-grid>
-    </div>
-  </main>
-
+    <van-grid-item v-for="(i,index) in 4" :key="index" :to="`/goods?id=${index}`">
+      <div class="box">
+          <a href="javascript:;" class="img">
+              <van-image fit="cover" src="https://yanxuan-item.nosdn.127.net/21d2e9b754487aa3030ce105493a9473.jpg" />
+          </a>
+          <a href="#" class="detailed">
+              <span class="title">加绒加厚，儿童保暖时尚卫衣套装73-120cm</span>
+              <span class="price">￥299</span>
+          </a>
+      </div>
+    </van-grid-item>
+    </van-grid>
+      </div>
+      <!-- 人气推荐 -->
+      <div>
+        <h1 class="title">人气推荐 <small>人气爆款 不容错过</small></h1>
+        <van-swipe :autoplay="3000">
+          <van-swipe-item v-for="(image, index) in images" :key="index">
+            <van-image fit="contain" v-lazy="image" :src="image" />
+          </van-swipe-item>
+        </van-swipe>
+      </div>
+      <!-- 热门品牌 -->
+      <div>
+        <h1 class="title">热门品牌 <small>国际经典 品质保证</small></h1>
+        <van-swipe :autoplay="3000">
+          <van-swipe-item v-for="(hot, index) in hots" :key="index">
+            <van-image fit="contain" v-lazy="hot" :src="hot" />
+          </van-swipe-item>
+        </van-swipe>
+      </div>
+      <!-- 猜你喜欢 -->
+      <div class="like">
+        <h1 class="title">----猜你喜欢----</h1>
+        <van-grid :border="true" :column-num="2" :gutter="5">
+    <van-grid-item v-for="(i,index) in 6" :key="index" :to="`/goods?id=${index}`">
+      <div class="box" >
+          <a href="javascript:;" class="img">
+              <van-image fit="contain" src="https://yanxuan-item.nosdn.127.net/21d2e9b754487aa3030ce105493a9473.jpg" />
+          </a>
+          <a href="javascript:;" class="detailed">
+              <span class="title">加绒加厚，儿童保暖时尚卫衣套装73-120cm</span>
+              <span class="price">￥299</span>
+          </a>
+      </div>
+    </van-grid-item>
+    </van-grid>
+      </div>
+    </main>
   </div>
 </template>
 
 <script>
 import { Toast } from 'vant'
-
+import xtxNavBarVue from '@/components/xtx-navBar.vue'
 export default {
   name: 'xtx-home',
+  components: { xtxNavBarVue },
   data () {
     return {
       value: '',

@@ -1,11 +1,5 @@
 <template>
   <div>
-    <nav>
-        <van-nav-bar
-            class="navBar"
-            title="小兔鲜商城"
-        />
-    </nav>
     <main>
       <!-- 二级路由 -->
       <router-view></router-view>
@@ -34,8 +28,5 @@ export default {
 </script>
 
 <style scoped lang='less'>
-.navBar{
-    background: linear-gradient(to right, #FF8D0E, #FF5000);
-}
 
 </style>

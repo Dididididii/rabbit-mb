@@ -1,5 +1,8 @@
 <template>
   <div class="box">
+    <!-- 头部导航栏 -->
+    <xtxNavBarVue title="购物车" :fixed="true" />
+    <!-- 商品列表 -->
     <div class="goods">
       <van-card
         v-for="(i,index) in 6" :key="index"
@@ -23,6 +26,7 @@
         </template>
       </van-card>
     </div>
+    <!-- 底部下单栏 -->
     <div class="sub">
       <van-submit-bar :price="3050" button-text="提交订单" @submit="onSubmit">
       <van-checkbox v-model="checked">全选</van-checkbox>
@@ -32,8 +36,10 @@
 </template>
 
 <script>
+import xtxNavBarVue from '@/components/xtx-navBar.vue'
 export default {
   name: 'xtx-cart',
+  components: { xtxNavBarVue },
   data () {
     return {
       checked: false
@@ -49,7 +55,6 @@ export default {
 
 <style lang="less" scoped>
 .box{
-  margin-top: 10px;
   margin-bottom: 100px;
   .van-card__price{
     color:red;
@@ -64,6 +69,7 @@ export default {
 
   .goods{
     padding-bottom: 10px;
+    padding-top:50px;
     .van-checkbox{
         position: absolute;
         top: 40px;

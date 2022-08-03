@@ -1,6 +1,10 @@
 <template>
     <div>
-      <van-tree-select height="100vh" :items="items" :main-active-index.sync="active"  >
+      <!-- 导航栏 -->
+      <xtxNavBarVue title="分类" :fixed="true" />
+      <!-- 分类栏 -->
+      <div class="box">
+        <van-tree-select height="90vh" :items="items" :main-active-index.sync="active"  >
         <template #content>
           <van-grid :column-num="4" :gutter="10" :icon-size="54">
             <a href="#" v-for="item in items[active].children" :key="item.id"><van-grid-item :icon="item.picture" :text="item.name" /></a>
@@ -23,12 +27,15 @@
 
         </template>
       </van-tree-select>
+      </div>
     </div>
 </template>
 
 <script>
+import xtxNavBarVue from '@/components/xtx-navBar.vue'
 export default {
   name: 'xtx-more',
+  components: { xtxNavBarVue },
   data () {
     return {
       active: 0,
@@ -331,8 +338,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.van-tree-select__nav{
-  height: 100vh;
+.box {
+  padding-top:50px;
 }
-
 </style>
