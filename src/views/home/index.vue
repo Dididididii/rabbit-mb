@@ -20,12 +20,7 @@
     </van-sticky>
 
 <!-- 轮播图 -->
-<van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-  <van-swipe-item>1</van-swipe-item>
-  <van-swipe-item>2</van-swipe-item>
-  <van-swipe-item>3</van-swipe-item>
-  <van-swipe-item>4</van-swipe-item>
-</van-swipe>
+<xtxSwipeVue :images="hots" />
     </header>
     <!-- 主体内容 -->
     <main>
@@ -49,20 +44,12 @@
       <!-- 人气推荐 -->
       <div>
         <h1 class="title">人气推荐 <small>人气爆款 不容错过</small></h1>
-        <van-swipe :autoplay="3000">
-          <van-swipe-item v-for="(image, index) in images" :key="index">
-            <van-image fit="contain" v-lazy="image" :src="image" />
-          </van-swipe-item>
-        </van-swipe>
+        <xtxSwipeVue :images="images" />
       </div>
       <!-- 热门品牌 -->
       <div>
         <h1 class="title">热门品牌 <small>国际经典 品质保证</small></h1>
-        <van-swipe :autoplay="3000">
-          <van-swipe-item v-for="(hot, index) in hots" :key="index">
-            <van-image fit="contain" v-lazy="hot" :src="hot" />
-          </van-swipe-item>
-        </van-swipe>
+        <xtxSwipeVue :images="hots" />
       </div>
       <!-- 猜你喜欢 -->
       <div class="like">
@@ -88,9 +75,10 @@
 <script>
 import { Toast } from 'vant'
 import xtxNavBarVue from '@/components/xtx-navBar.vue'
+import xtxSwipeVue from '@/components/xtx-swipe.vue'
 export default {
   name: 'xtx-home',
-  components: { xtxNavBarVue },
+  components: { xtxNavBarVue, xtxSwipeVue },
   data () {
     return {
       value: '',
@@ -129,6 +117,10 @@ header {
     line-height: 150px;
     text-align: center;
     background-color: #39a9ed;
+  }
+  .van-image{
+    width: 375px;
+    height: 200px;
   }
 }
 main{
