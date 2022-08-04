@@ -20,7 +20,7 @@
     </van-sticky>
 
 <!-- 轮播图 -->
-<xtxSwipeVue :images="hots" />
+<xtxSwipeVue :images="navimg" />
     </header>
     <!-- 主体内容 -->
     <main>
@@ -29,12 +29,12 @@
       <!-- 人气推荐 -->
       <div>
         <xtxTitleVue title="人气推荐" text="人气爆款 不容错过" />
-        <xtxSwipeVue :images="images" />
+        <xtxSwipeVue :images="hots" />
       </div>
       <!-- 热门品牌 -->
       <div>
         <xtxTitleVue title="热门品牌" text="国际经典 品质保证" />
-        <xtxSwipeVue :images="hots" />
+        <xtxSwipeVue :images="brands" />
       </div>
       <!-- 猜你喜欢 -->
       <div class="like">
@@ -46,6 +46,7 @@
 
 <script>
 import { Toast } from 'vant'
+import { findBanner, findHot, findBrand } from '@/api/home'
 import xtxNavBarVue from '@/components/xtx-navBar.vue'
 import xtxSwipeVue from '@/components/xtx-swipe.vue'
 import xtxGoodsVue from '@/components/xtx-goods.vue'
@@ -56,13 +57,9 @@ export default {
   data () {
     return {
       value: '',
-      images: [
-        'https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tuxian/popular_1.jpg',
-        'https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tuxian/popular_1.jpg'
-      ],
-      hots: [
-        'http://yjy-xiaotuxian-dev.oss-cn-beijing.aliyuncs.com/picture/2021-04-22/a25d210a-cf3d-49f5-9006-5c1e7c563bb9.jpg', 'http://yjy-xiaotuxian-dev.oss-cn-beijing.aliyuncs.com/picture/2021-04-22/a25d210a-cf3d-49f5-9006-5c1e7c563bb9.jpg'
-      ],
+      navimg: [],
+      hots: [],
+      brands: [],
       goods: [
         {
           id: '123',
@@ -94,7 +91,42 @@ export default {
   methods: {
     onSearch (val) {
       Toast(val)
+    },
+    async getBanners () {
+      try {
+        const res = await findBanner()
+        res.result.forEach(item => {
+          this.navimg.push(item.imgUrl)
+        })
+      } catch (error) {
+        Toast(error)
+      }
+    },
+    async gethots () {
+      try {
+        const res = await findHot()
+        res.result.forEach(item => {
+          this.hots.push(item.picture)
+        })
+      } catch (error) {
+        Toast(error)
+      }
+    },
+    async getBrands () {
+      try {
+        const res = await findBrand()
+        res.result.forEach(item => {
+          this.brands.push(item.picture)
+        })
+      } catch (error) {
+        Toast(error)
+      }
     }
+  },
+  created () {
+    this.getBanners()
+    this.gethots()
+    this.getBrands()
   }
 }
 </script>

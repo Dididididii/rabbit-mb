@@ -8,15 +8,6 @@
               <div class="custom-indicator">{{ current + 1 }}/{{images.length}}</div>
             </template>
     </van-swipe>
-    <!-- <van-swipe @change="onChange">
-        <van-swipe-item>1</van-swipe-item>
-        <van-swipe-item>2</van-swipe-item>
-        <van-swipe-item>3</van-swipe-item>
-        <van-swipe-item>4</van-swipe-item>
-        <template #indicator>
-          <div class="custom-indicator">{{ current + 1 }}/4</div>
-        </template>
-    </van-swipe> -->
     </div>
 </template>
 
