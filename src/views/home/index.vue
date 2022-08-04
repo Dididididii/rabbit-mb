@@ -25,48 +25,20 @@
     <!-- 主体内容 -->
     <main>
       <!-- 新鲜好物 -->
-      <div>
-        <h1 class="title">新鲜好物 <small>新鲜出炉 品质靠谱</small></h1>
-      <van-grid :border="true" :column-num="2" :gutter="5">
-    <van-grid-item v-for="(i,index) in 4" :key="index" :to="`/goods?id=${index}`">
-      <div class="box">
-          <a href="javascript:;" class="img">
-              <van-image fit="cover" src="https://yanxuan-item.nosdn.127.net/21d2e9b754487aa3030ce105493a9473.jpg" />
-          </a>
-          <a href="#" class="detailed">
-              <span class="title">加绒加厚，儿童保暖时尚卫衣套装73-120cm</span>
-              <span class="price">￥299</span>
-          </a>
-      </div>
-    </van-grid-item>
-    </van-grid>
-      </div>
+      <xtxGoodsVue text="新鲜出炉 品质靠谱" title="新鲜好物" :goods="goods" />
       <!-- 人气推荐 -->
       <div>
-        <h1 class="title">人气推荐 <small>人气爆款 不容错过</small></h1>
+        <xtxTitleVue title="人气推荐" text="人气爆款 不容错过" />
         <xtxSwipeVue :images="images" />
       </div>
       <!-- 热门品牌 -->
       <div>
-        <h1 class="title">热门品牌 <small>国际经典 品质保证</small></h1>
+        <xtxTitleVue title="热门品牌" text="国际经典 品质保证" />
         <xtxSwipeVue :images="hots" />
       </div>
       <!-- 猜你喜欢 -->
       <div class="like">
-        <h1 class="title">----猜你喜欢----</h1>
-        <van-grid :border="true" :column-num="2" :gutter="5">
-    <van-grid-item v-for="(i,index) in 6" :key="index" :to="`/goods?id=${index}`">
-      <div class="box" >
-          <a href="javascript:;" class="img">
-              <van-image fit="contain" src="https://yanxuan-item.nosdn.127.net/21d2e9b754487aa3030ce105493a9473.jpg" />
-          </a>
-          <a href="javascript:;" class="detailed">
-              <span class="title">加绒加厚，儿童保暖时尚卫衣套装73-120cm</span>
-              <span class="price">￥299</span>
-          </a>
-      </div>
-    </van-grid-item>
-    </van-grid>
+        <xtxGoodsVue class="title" title="----猜你喜欢----" :goods="goods"/>
       </div>
     </main>
   </div>
@@ -76,9 +48,11 @@
 import { Toast } from 'vant'
 import xtxNavBarVue from '@/components/xtx-navBar.vue'
 import xtxSwipeVue from '@/components/xtx-swipe.vue'
+import xtxGoodsVue from '@/components/xtx-goods.vue'
+import xtxTitleVue from '@/components/xtx-title.vue'
 export default {
   name: 'xtx-home',
-  components: { xtxNavBarVue, xtxSwipeVue },
+  components: { xtxNavBarVue, xtxSwipeVue, xtxGoodsVue, xtxTitleVue },
   data () {
     return {
       value: '',
@@ -88,6 +62,32 @@ export default {
       ],
       hots: [
         'http://yjy-xiaotuxian-dev.oss-cn-beijing.aliyuncs.com/picture/2021-04-22/a25d210a-cf3d-49f5-9006-5c1e7c563bb9.jpg', 'http://yjy-xiaotuxian-dev.oss-cn-beijing.aliyuncs.com/picture/2021-04-22/a25d210a-cf3d-49f5-9006-5c1e7c563bb9.jpg'
+      ],
+      goods: [
+        {
+          id: '123',
+          name: '加绒加厚，儿童保暖时尚卫衣套装73-120cm',
+          price: '299',
+          img: 'https://yanxuan-item.nosdn.127.net/21d2e9b754487aa3030ce105493a9473.jpg'
+        },
+        {
+          id: '124',
+          name: '加绒加厚，儿童保暖时尚卫衣套装73-120cm',
+          price: '299',
+          img: 'https://yanxuan-item.nosdn.127.net/21d2e9b754487aa3030ce105493a9473.jpg'
+        },
+        {
+          id: '125',
+          name: '加绒加厚，儿童保暖时尚卫衣套装73-120cm',
+          price: '299',
+          img: 'https://yanxuan-item.nosdn.127.net/21d2e9b754487aa3030ce105493a9473.jpg'
+        },
+        {
+          id: '126',
+          name: '加绒加厚，儿童保暖时尚卫衣套装73-120cm',
+          price: '299',
+          img: 'https://yanxuan-item.nosdn.127.net/21d2e9b754487aa3030ce105493a9473.jpg'
+        }
       ]
     }
   },
@@ -125,48 +125,14 @@ header {
 }
 main{
   margin-bottom:50px;
-    .title{
-        font-size: 16px;
-        font-weight: 400;
-        margin-left: 6px;
-        small{
-            font-size: 12px;
-            color: #999;
-            margin-left: 5px;
-        }
-    }
-    .van-grid{
-        margin-top: 10px;
-        .box{
-            border-radius: 6px;
-            overflow: hidden;
-        }
-        .detailed{
-            width: 100%;
-            padding-left: 10px;
-            .title{
-                margin-top: 5px;
-                font-size: 13.000000000000004px;
-                color: #333333;
-                display: inline-block;
-                width: 90%;
-            }
-            .price{
-                color:red;
-                font-size: 14px;
-                text-align: left;
-                display:inline-block;
-                width:100%;
-                margin-top: 5px;
-                padding-left: 5px;
-            }
-        }
-    }
     .like{
       padding-bottom: 10px;
       .title{
         text-align: center;
         color:#999;
+      }
+      .goodsbox .title{
+        display:none ;
       }
     }
 
