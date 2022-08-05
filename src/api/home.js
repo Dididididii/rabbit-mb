@@ -27,3 +27,10 @@ export const findBrand = () => {
 export const findSimple = () => {
   return request('home/new/simple', 'get')
 }
+
+/**
+ * 猜你喜欢
+*/
+export const findLike = () => {
+  return request('/home/goods', 'get')
+}

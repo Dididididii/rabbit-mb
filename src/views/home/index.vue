@@ -46,7 +46,7 @@
 
 <script>
 import { Toast } from 'vant'
-import { findBanner, findHot, findBrand, findSimple } from '@/api/home'
+import { findBanner, findHot, findBrand, findSimple, findLike } from '@/api/home'
 import xtxNavBarVue from '@/components/xtx-navBar.vue'
 import xtxSwipeVue from '@/components/xtx-swipe.vue'
 import xtxGoodsVue from '@/components/xtx-goods.vue'
@@ -60,32 +60,7 @@ export default {
       navimg: [],
       hots: [],
       brands: [],
-      goods: [
-        {
-          id: '123',
-          name: '加绒加厚，儿童保暖时尚卫衣套装73-120cm',
-          price: '299',
-          picture: 'https://yanxuan-item.nosdn.127.net/21d2e9b754487aa3030ce105493a9473.jpg'
-        },
-        {
-          id: '124',
-          name: '加绒加厚，儿童保暖时尚卫衣套装73-120cm',
-          price: '299',
-          picture: 'https://yanxuan-item.nosdn.127.net/21d2e9b754487aa3030ce105493a9473.jpg'
-        },
-        {
-          id: '125',
-          name: '加绒加厚，儿童保暖时尚卫衣套装73-120cm',
-          price: '299',
-          picture: 'https://yanxuan-item.nosdn.127.net/21d2e9b754487aa3030ce105493a9473.jpg'
-        },
-        {
-          id: '126',
-          name: '加绒加厚，儿童保暖时尚卫衣套装73-120cm',
-          price: '299',
-          picture: 'https://yanxuan-item.nosdn.127.net/21d2e9b754487aa3030ce105493a9473.jpg'
-        }
-      ],
+      goods: [],
       news: []
     }
   },
@@ -133,6 +108,17 @@ export default {
       } catch (error) {
         Toast(error)
       }
+    },
+    async getLikes () {
+      try {
+        const res = await findLike()
+
+        res.result.forEach(item => {
+          this.goods.push(...item.goods)
+        })
+      } catch (error) {
+        Toast(error)
+      }
     }
   },
   created () {
@@ -140,6 +126,7 @@ export default {
     this.gethots()
     this.getBrands()
     this.getSimples()
+    this.getLikes()
   }
 }
 </script>
