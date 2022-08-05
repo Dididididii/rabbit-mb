@@ -25,7 +25,7 @@
     <!-- 主体内容 -->
     <main>
       <!-- 新鲜好物 -->
-      <xtxGoodsVue text="新鲜出炉 品质靠谱" title="新鲜好物" :goods="goods" />
+      <xtxGoodsVue text="新鲜出炉 品质靠谱" title="新鲜好物" :goods="news" />
       <!-- 人气推荐 -->
       <div>
         <xtxTitleVue title="人气推荐" text="人气爆款 不容错过" />
@@ -46,7 +46,7 @@
 
 <script>
 import { Toast } from 'vant'
-import { findBanner, findHot, findBrand } from '@/api/home'
+import { findBanner, findHot, findBrand, findSimple } from '@/api/home'
 import xtxNavBarVue from '@/components/xtx-navBar.vue'
 import xtxSwipeVue from '@/components/xtx-swipe.vue'
 import xtxGoodsVue from '@/components/xtx-goods.vue'
@@ -65,27 +65,28 @@ export default {
           id: '123',
           name: '加绒加厚，儿童保暖时尚卫衣套装73-120cm',
           price: '299',
-          img: 'https://yanxuan-item.nosdn.127.net/21d2e9b754487aa3030ce105493a9473.jpg'
+          picture: 'https://yanxuan-item.nosdn.127.net/21d2e9b754487aa3030ce105493a9473.jpg'
         },
         {
           id: '124',
           name: '加绒加厚，儿童保暖时尚卫衣套装73-120cm',
           price: '299',
-          img: 'https://yanxuan-item.nosdn.127.net/21d2e9b754487aa3030ce105493a9473.jpg'
+          picture: 'https://yanxuan-item.nosdn.127.net/21d2e9b754487aa3030ce105493a9473.jpg'
         },
         {
           id: '125',
           name: '加绒加厚，儿童保暖时尚卫衣套装73-120cm',
           price: '299',
-          img: 'https://yanxuan-item.nosdn.127.net/21d2e9b754487aa3030ce105493a9473.jpg'
+          picture: 'https://yanxuan-item.nosdn.127.net/21d2e9b754487aa3030ce105493a9473.jpg'
         },
         {
           id: '126',
           name: '加绒加厚，儿童保暖时尚卫衣套装73-120cm',
           price: '299',
-          img: 'https://yanxuan-item.nosdn.127.net/21d2e9b754487aa3030ce105493a9473.jpg'
+          picture: 'https://yanxuan-item.nosdn.127.net/21d2e9b754487aa3030ce105493a9473.jpg'
         }
-      ]
+      ],
+      news: []
     }
   },
   methods: {
@@ -121,12 +122,24 @@ export default {
       } catch (error) {
         Toast(error)
       }
+    },
+    async getSimples () {
+      try {
+        const res = await findSimple()
+        this.news = res.result.newProduct
+        // res.result.forEach(item => {
+        //   this.brands.push(item.picture)
+        // })
+      } catch (error) {
+        Toast(error)
+      }
     }
   },
   created () {
     this.getBanners()
     this.gethots()
     this.getBrands()
+    this.getSimples()
   }
 }
 </script>

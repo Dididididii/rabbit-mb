@@ -5,9 +5,9 @@
     <van-grid-item v-for="good in goods" :key="good.id" :to="`/goods?id=${good.id}`">
       <div class="box">
           <a href="javascript:;" class="img">
-              <van-image fit="cover" :src="good.img" />
+              <van-image fit="cover" :src="good.picture" />
           </a>
-          <a href="#" class="detailed">
+          <a href="javascript:;" class="detailed">
               <span class="title">{{good.name}}</span>
               <span class="price">￥{{good.price}}</span>
           </a>

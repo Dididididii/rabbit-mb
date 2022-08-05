@@ -20,3 +20,10 @@ export const findHot = () => {
 export const findBrand = () => {
   return request('home/brand', 'get')
 }
+
+/**
+ * 新鲜好物
+*/
+export const findSimple = () => {
+  return request('home/new/simple', 'get')
+}
