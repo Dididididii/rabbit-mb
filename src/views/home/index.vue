@@ -120,6 +120,7 @@ export default {
         Toast(error)
       }
     }
+
   },
   created () {
     this.getBanners()

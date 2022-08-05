@@ -32,5 +32,12 @@ export const findSimple = () => {
  * 猜你喜欢
 */
 export const findLike = () => {
-  return request('/home/goods', 'get')
+  return request('home/goods', 'get')
+}
+
+/**
+ * 猜你喜欢
+*/
+export const findCategory = () => {
+  return request('home/category/head', 'get')
 }
