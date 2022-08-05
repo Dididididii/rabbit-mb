@@ -15,26 +15,26 @@
             </template>
         </van-nav-bar>
         </header>
-        <main>
-            <div class="goodsitem">
-                <xtxSwipeVue :indicator="true" :images="list" :preview="true"/>
+        <main v-if="list.id">
+            <div class="goodsitem" >
+                <xtxSwipeVue :indicator="true" :images="list.mainPictures" :preview="true"/>
             </div>
             <div class="card">
                 <div class="toprail">
                     <div class="cardheader">
                         <span>
                             <!-- <small style="font-size: 17px;"></small> -->
-                            ￥19.8-68
+                            ￥{{list.price}}
                             </span>
                         <span>
                              价格￥
                              <small style="text-decoration: line-through;">
-                             298
+                             {{list.oldPrice}}
                              </small>
                         </span>
                     </div>
                     <div class="title">
-                        <h3>【CUBA全明星同款】男式准者碳板实战篮球鞋</h3>
+                        <h3>{{list.name}}</h3>
                     </div>
                 </div>
             </div>
@@ -49,28 +49,12 @@
                             <span>颜色分类/尺码</span>
                             <div>
                                 <van-image
+                                    v-for="img in list.specs[0].values"
+                                    :key="img.id"
                                     width="2.5rem"
                                     height="2.5rem"
                                     fit="contain"
-                                    src="https://img01.yzcdn.cn/vant/cat.jpeg"
-                                />
-                                <van-image
-                                    width="2.5rem"
-                                    height="2.5rem"
-                                    fit="contain"
-                                    src="https://img01.yzcdn.cn/vant/cat.jpeg"
-                                />
-                                <van-image
-                                    width="2.5rem"
-                                    height="2.5rem"
-                                    fit="contain"
-                                    src="https://img01.yzcdn.cn/vant/cat.jpeg"
-                                />
-                                <van-image
-                                    width="2.5rem"
-                                    height="2.5rem"
-                                    fit="contain"
-                                    src="https://img01.yzcdn.cn/vant/cat.jpeg"
+                                    :src="img.picture"
                                 />
                             </div>
                         </div>
@@ -181,9 +165,9 @@
                         </a>
                     </div>
                     <van-grid :column-num="3" icon-size="66px">
-                        <van-grid-item v-for="value in 6" :key="value" icon="https://yanxuan-item.nosdn.127.net/4737115ab947865c148955a3c20cb4b4.png" :to="`/goods?id=${value}`" >
+                        <van-grid-item v-for="value in relevant" :key="value.id" :icon="value.picture" :to="`/goods?id=${value.id}`" >
                             <template #text>
-                                <span class="columnlist">温柔拥抱新生，萌趣全棉哈衣爬服0-3岁</span>
+                                <span class="columnlist">{{value.name}}</span>
                             </template>
                         </van-grid-item>
                     </van-grid>
@@ -194,22 +178,12 @@
                 <div style="padding:10px 10px">
                     <div class="img">
                         <van-image
+                            v-for="(item,index) in list.details.pictures"
+                            :key="index"
                             width="100%"
                             height="100%"
                             fit="cover"
-                            src="https://yanxuan-item.nosdn.127.net/595cc0fc418eff5ac61c6ed0d4326039.jpg"
-                        />
-                        <van-image
-                            width="100%"
-                            height="100%"
-                            fit="cover"
-                            src="https://yanxuan-item.nosdn.127.net/aae1b38360fcadb27f8f2893d6dc6955.jpg"
-                        />
-                        <van-image
-                            width="100%"
-                            height="100%"
-                            fit="cover"
-                            src="https://yanxuan-item.nosdn.127.net/9e8349ef404283338bc6809fbc05d22a.jpg"
+                            :src="item"
                         />
                     </div>
 
@@ -241,6 +215,7 @@
   </div>
                 </div>
             </div>
+
         </main>
         <footer>
             <van-goods-action>
@@ -270,6 +245,8 @@
 
 <script>
 import xtxSwipeVue from '@/components/xtx-swipe.vue'
+import { findGoods, findRelevant } from '@/api/product'
+import { Toast } from 'vant'
 export default {
   name: 'xtx-goods',
   components: { xtxSwipeVue },
@@ -278,7 +255,8 @@ export default {
       value: '',
       current: 0,
       show: false,
-      list: ['https://yanxuan-item.nosdn.127.net/55176dfd19ad8dfae618959d18d7c481.png', 'https://yanxuan-item.nosdn.127.net/9be82942066b0700da3a68609700bde3.png', 'https://yanxuan-item.nosdn.127.net/392b39106a8c87b18ee8b0eb782292ce.png'],
+      list: [],
+      relevant: [],
       sku: {
         // 所有sku规格类目与其值的从属关系，比如商品有颜色和尺码两大类规格，颜色下面又有红色和蓝色两个规格值。
         // 可以理解为一个商品可以有多个规格类目，一个规格类目下可以有多个规格值。
@@ -361,7 +339,28 @@ export default {
     },
     btn () {
       this.show = true
+    },
+    async getGoods () {
+      try {
+        const res = await findGoods(this.$route.query.id)
+        this.list = res.result
+      } catch (error) {
+        Toast(error)
+      }
+    },
+    async getRelevants () {
+      try {
+        const res = await findRelevant(this.$route.query.id)
+        console.log(res)
+        this.relevant = res.result
+      } catch (error) {
+        Toast(error)
+      }
     }
+  },
+  created () {
+    this.getGoods()
+    this.getRelevants()
   }
 }
 </script>
