@@ -3,33 +3,44 @@
     <!-- 头部导航栏 -->
     <xtxNavBarVue title="购物车" :fixed="true" />
     <!-- 商品列表 -->
-    <div class="goods">
+    <div class="goods" v-if="$store.state.cart.list.length>0">
       <van-card
-        v-for="(i,index) in 6" :key="index"
-        num="2"
-        price="2.00"
-        desc="颜色:动物印花米色 尺码:140cm 颜色:动物印花米色 尺码:140cm "
-        title="潮娃自留款，儿童字母印花卫衣1-6岁"
-        origin-price="10.00"
+        v-for="item in $store.state.cart.list" :key="item.id"
+        :num="item.selectedNum"
+        :price="item.price"
+        :desc="item.text"
+        :title="item.name"
+        :origin-price="item.oldPrice"
       >
       <template #thumb>
           <van-image
-            @click="$router.push(`/goods?id=${index}`)"
+            @click="$router.push(`/goods?id=${item.goodsId}`)"
             width="5.5rem"
             height="5.5rem"
             fit="cover"
-            src="https://yanxuan-item.nosdn.127.net/21d2e9b754487aa3030ce105493a9473.jpg"
+            :src="item.img"
           />
         </template>
         <template #footer>
-          <van-checkbox v-model="checked"></van-checkbox>
+          <van-button size="mini" @click="delList(item.id)">删除</van-button>
         </template>
       </van-card>
     </div>
+    <!-- 无商品时 -->
+    <div class="nothave" v-else>
+      <div class="box">
+        <van-image
+        width="10rem"
+        height="10rem"
+        fit="contain"
+        :src="require('@/assets/imgs/nothave.png')"
+      />
+      <p>购物车内暂时没有商品</p>
+      </div>
+    </div>
     <!-- 底部下单栏 -->
     <div class="sub">
-      <van-submit-bar :price="3050" button-text="提交订单" @submit="onSubmit">
-      <van-checkbox v-model="checked">全选</van-checkbox>
+      <van-submit-bar :price="num" button-text="提交订单" @submit="onSubmit">
     </van-submit-bar>
     </div>
   </div>
@@ -42,13 +53,27 @@ export default {
   components: { xtxNavBarVue },
   data () {
     return {
-      checked: false
+      num: 0
     }
   },
   methods: {
     onSubmit () {
       console.log('提交了')
+    },
+    delList (id) {
+      console.log(1)
+      this.$store.dispatch('cart/delList', id)
+      this.num = 0
+      this.$store.state.cart.list.forEach(item => {
+        this.num = this.num + (item.price * 100 * item.selectedNum) * 1
+      })
     }
+  },
+  created () {
+    this.num = 0
+    this.$store.state.cart.list.forEach(item => {
+      this.num = this.num + (item.price * 100 * item.selectedNum) * 1
+    })
   }
 }
 </script>
@@ -70,14 +95,18 @@ export default {
   .goods{
     padding-bottom: 10px;
     padding-top:50px;
-    .van-checkbox{
-        position: absolute;
-        top: 40px;
-        left: 5px;
-    }
   }
-  .van-card__header{
-    margin-left: 15px;
+  .nothave{
+    height:76vh;
+    background-color: #fff;
+    display: flex;
+    .box{
+      margin: auto;
+      p{
+        margin:0;
+        color:#999;
+      }
+    }
   }
 }
 </style>

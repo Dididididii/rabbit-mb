@@ -222,8 +222,8 @@
                 <van-goods-action-icon icon="shop-o" text="店铺" />
                 <van-goods-action-icon icon="chat-o" text="客服" />
                 <van-goods-action-icon icon="star" text="已收藏" color="#ff5000" />
-                <van-goods-action-button type="warning" text="加入购物车" />
-                <van-goods-action-button type="danger" text="立即购买" />
+                <van-goods-action-button @click="btn" type="warning" text="加入购物车" />
+                <van-goods-action-button @click="btn" type="danger" text="立即购买" />
             </van-goods-action>
         </footer>
         <van-sku
@@ -233,12 +233,12 @@
             close-on-click-overlay
             safe-area-inset-bottom
             :goods="goods"
-            :goods-id="123"
+            :goods-id="list.id"
             :quota="0"
             :quota-used="0"
             :hide-stock="sku.hide_stock"
-            :message-config="messageConfig"
-
+            @buy-clicked="buy"
+            @add-cart="addCart"
         />
     </div>
 </template>
@@ -257,41 +257,14 @@ export default {
       show: false,
       list: [],
       relevant: [],
+      tree: [],
       sku: {
         // 所有sku规格类目与其值的从属关系，比如商品有颜色和尺码两大类规格，颜色下面又有红色和蓝色两个规格值。
         // 可以理解为一个商品可以有多个规格类目，一个规格类目下可以有多个规格值。
-        tree: [
-          {
-            k: '颜色', // skuKeyName：规格类目名称
-            k_s: 's1', // skuKeyStr：sku 组合列表（下方 list）中当前类目对应的 key 值，value 值会是从属于当前类目的一个规格值 id
-            v: [
-              {
-                id: '1', // skuValueId：规格值 id
-                name: '红色', // skuValueName：规格值名称
-                imgUrl: 'https://yanxuan-item.nosdn.127.net/392b39106a8c87b18ee8b0eb782292ce.png', // 规格类目图片，只有第一个规格类目可以定义图片
-                previewImgUrl: 'https://yanxuan-item.nosdn.127.net/392b39106a8c87b18ee8b0eb782292ce.png' // 用于预览显示的规格类目图片
-              },
-              {
-                id: '1',
-                name: '蓝色',
-                imgUrl: 'https://yanxuan-item.nosdn.127.net/9be82942066b0700da3a68609700bde3.png',
-                previewImgUrl: 'https://yanxuan-item.nosdn.127.net/9be82942066b0700da3a68609700bde3.png'
-              }
-            ],
-            largeImageMode: true //  是否展示大图模式
-          }
-        ],
+        tree: [],
         // 所有 sku 的组合列表，比如红色、M 码为一个 sku 组合，红色、S 码为另一个组合
-        list: [
-          {
-            id: 2259, // skuId
-            s1: '1', // 规格类目 k_s 为 s1 的对应规格值 id
-            s2: '1', // 规格类目 k_s 为 s2 的对应规格值 id
-            price: 100, // 价格（单位分）
-            stock_num: 110 // 当前 sku 组合对应的库存
-          }
-        ],
-        price: '1.00', // 默认价格（单位元）
+        list: [],
+        price: '', // '1.00', // 默认价格（单位元）
         stock_num: 227, // 商品总库存
         collection_id: 2261, // 无规格商品 skuId 取 collection_id，否则取所选 sku 组合对应的 id
         none_sku: false, // 是否无规格商品
@@ -299,37 +272,7 @@ export default {
       },
       goods: {
         // 数据结构见下方文档
-        picture: 'https://yanxuan-item.nosdn.127.net/55176dfd19ad8dfae618959d18d7c481.png'
-      },
-      messageConfig: {
-        // 数据结构见下方文档
-        // 图片上传回调，需要返回一个promise，promise正确执行的结果需要是一个图片url
-        uploadImg: () => {
-          return new Promise((resolve) => {
-            setTimeout(() => resolve('https://img01.yzcdn.cn/upload_files/2017/02/21/FjKTOxjVgnUuPmHJRdunvYky9OHP.jpg!100x100.jpg'), 1000)
-          })
-        },
-        // 可选项，自定义图片上传逻辑，使用此选项时，会禁用原生图片选择
-        customUpload: () => {
-          return new Promise((resolve) => {
-            setTimeout(() => {
-              resolve('https://img01.yzcdn.cn/vant/leaf.jpg')
-            }, 1000)
-          })
-        },
-        // 最大上传体积 (MB)
-        uploadMaxSize: 3,
-        // placeholder 配置
-        placeholderMap: {
-          text: 'xxx',
-          tel: 'xxx'
-        },
-        // 初始留言信息
-        // 键：留言 name
-        // 值：留言内容
-        initialMessages: {
-          留言: '留言信息'
-        }
+        picture: ''
       }
     }
   },
@@ -337,13 +280,50 @@ export default {
     onChange (index) {
       this.current = index
     },
-    btn () {
+    async btn () {
+      const i = []
       this.show = true
+      await this.list.specs.forEach(async (item, index) => {
+        // this.tree.push({
+        //   k: item.name,
+        //   k_s: 's' + (index + 1)
+        // })
+        await this.tree.push({
+          k: item.name,
+          k_s: 's' + (index + 1),
+          v: [],
+          largeImageMode: true //  是否展示大图模式
+        })
+        item.values.forEach((list, num) => {
+          i.push({
+            id: this.list.skus.map(sku => sku.id)[num],
+            name: list.name,
+            imgUrl: list.picture,
+            previewImgUrl: list.picture
+          })
+        })
+      })
+      this.list.specs.forEach((item, index) => {
+        this.tree[index].v = i
+      })
+      this.sku.tree = this.tree
+      this.list.skus.forEach((item, index) => {
+        this.sku.list.push({
+          id: item.id,
+          s1: item.id,
+          price: item.price * 100,
+          stock_num: item.inventory,
+          properties: item.specs
+        })
+      })
     },
     async getGoods () {
       try {
         const res = await findGoods(this.$route.query.id)
         this.list = res.result
+        this.sku.price = this.list.price
+        this.sku.stock_num = this.list.inventory
+        this.goods.picture = this.list.mainPictures[0]
       } catch (error) {
         Toast(error)
       }
@@ -351,16 +331,53 @@ export default {
     async getRelevants () {
       try {
         const res = await findRelevant(this.$route.query.id)
-        console.log(res)
         this.relevant = res.result
       } catch (error) {
         Toast(error)
       }
+    },
+    buy (e) {
+      const name = this.list.skus.filter(item => item.id === e.selectedSkuComb.s1)
+      console.log(name)
+      // e.selectedSkuComb.s1
+    },
+    addCart (e) {
+      const name = this.list.skus.filter(item => item.id === e.selectedSkuComb.s1)
+      this.$store.dispatch('cart/checkList', {
+        id: name[0].id,
+        name: this.list.name,
+        text: `${name[0].specs[0].name}: ${name[0].specs[0].valueName}`,
+        goodsId: e.goodsId,
+        selectedNum: e.selectedNum,
+        oldPrice: name[0].oldPrice,
+        price: name[0].price,
+        img: this.list.mainPictures[0]
+      })
+      this.show = false
     }
   },
   created () {
     this.getGoods()
     this.getRelevants()
+  },
+  watch: {
+    $route: {
+      handler: function () {
+        this.getGoods()
+        this.sku.tree = []
+        this.tree = []
+      },
+      immediate: true
+    },
+    show: {
+      handler: function (newV) {
+        if (!newV) {
+          // this.sku.tree = []
+          this.tree = []
+        }
+      },
+      immediate: true
+    }
   }
 }
 </script>
