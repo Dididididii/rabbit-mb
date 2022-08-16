@@ -316,6 +316,7 @@ export default {
           properties: item.specs
         })
       })
+      console.log(this.sku.tree)
     },
     async getGoods () {
       try {
@@ -354,6 +355,7 @@ export default {
         img: this.list.mainPictures[0]
       })
       this.show = false
+      Toast('加入购物车成功,请在购物车里查看')
     }
   },
   created () {

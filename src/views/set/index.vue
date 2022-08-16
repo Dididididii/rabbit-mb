@@ -19,11 +19,11 @@
               round
               width="3rem"
               height="3rem"
-              src="https://img01.yzcdn.cn/vant/cat.jpeg"
+              :src="$store.state.user.profile.avatar"
             />
             <div>
-              <h3 class="name">小兔鲜用户名</h3>
-              <p class="numphone">小兔鲜账号</p>
+              <h3 class="name">{{$store.state.user.profile.nickname}}</h3>
+              <p class="numphone">{{$store.state.user.profile.account}}</p>
             </div>
             </div>
           </template>
@@ -57,15 +57,24 @@
       </van-cell-group>
 
       <van-cell-group >
-        <van-button type="default" block size="small">退出登录</van-button>
+        <van-button type="default" block size="small" @click="outto">退出登录</van-button>
       </van-cell-group>
     </main>
   </div>
 </template>
 
 <script>
+import { Toast } from 'vant'
+
 export default {
-  name: 'xtx-set'
+  name: 'xtx-set',
+  methods: {
+    outto () {
+      this.$store.commit('user/setUser', {})
+      Toast('退出成功')
+      this.$router.push('/my')
+    }
+  }
 }
 </script>
 

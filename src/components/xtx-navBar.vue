@@ -4,7 +4,12 @@
             class="navBar"
             :title="title"
             :fixed="fixed"
-        />
+            @click-left="$router.go(-1)"
+        >
+          <template #left  v-if="leftArrow">
+            <van-icon name="arrow-left" size="18" color="#fff"/>
+          </template>
+        </van-nav-bar>
     </nav>
 </template>
 
@@ -19,6 +24,10 @@ export default {
     fixed: {
       type: Boolean,
       default: false
+    },
+    leftArrow: {
+      type: Boolean,
+      default: false
     }
   }
 }
@@ -30,5 +39,9 @@ export default {
     .van-nav-bar__title {
         color:#fff;
     }
+.van-nav-bar .van-icon {
+      color: #fff !important;
+    }
 }
+
 </style>

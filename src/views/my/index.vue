@@ -1,19 +1,23 @@
 <template>
     <div class="mybox">
-      <div class="outerbox">
+      <div class="outerbox" @click="login">
         <div class="photo">
           <van-image
             round
             width="3rem"
             height="3rem"
-            src="https://img01.yzcdn.cn/vant/cat.jpeg"
+            :src="photo"
           />
         </div>
-        <div class="name">
-          <h3 class="phonename">我的小兔鲜昵称</h3>
-          <span class="numname">账号名称</span>
+        <div class="name" v-if="$store.state.user.profile.token">
+          <h3 class="phonename">{{$store.state.user.profile.nickname}}</h3>
+          <span class="numname">{{$store.state.user.profile.account}}</span>
         </div>
-        <div class="set">
+        <div class="name" v-else>
+          <h3 class="phonename">未登录</h3>
+          <span class="numname">小兔鲜账号</span>
+        </div>
+        <div class="set" v-if="$store.state.user.profile.token">
           <!-- <a style="color:#000;" href="/set">
             <van-icon name="setting-o" size="20"  />
           </a> -->
@@ -95,7 +99,19 @@
 
 <script>
 export default {
-  name: 'xtx-my'
+  name: 'xtx-my',
+  data () {
+    return {
+      photo: this.$store.state.user.profile.avatar || 'http://yjy-xiaotuxian-dev.oss-cn-beijing.aliyuncs.com/avatar/2022-05-14/f6bafcfc-a840-4a81-9907-939ee56dff4d.jpg'
+    }
+  },
+  methods: {
+    login () {
+      if (!this.$store.state.user.profile.token) {
+        this.$router.push('/login')
+      }
+    }
+  }
 }
 </script>
 

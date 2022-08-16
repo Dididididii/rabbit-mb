@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import store from '@/store'
 import VueRouter from 'vue-router'
 import Layout from '@/views/Layout'
 import More from '@/views/more'
@@ -7,6 +8,7 @@ import Cart from '@/views/cart'
 import My from '@/views/my'
 import Set from '@/views/set'
 import Goods from '@/views/goods'
+import Login from '@/views/Login'
 Vue.use(VueRouter)
 
 const routes = [
@@ -39,6 +41,10 @@ const routes = [
   {
     path: '/goods',
     component: Goods
+  },
+  {
+    path: '/login',
+    component: Login
   }
 
 ]
@@ -53,6 +59,18 @@ router.beforeEach((to, from, next) => {
   document.body.scrollTop = 0
   document.documentElement.scrollTop = 0
   window.pageYOffset = 0
+  // console.log(to.path)
+  // console.log(from.fullPath)
+  if (to.path === '/login') {
+    if (store.state.user.profile.token) {
+      // to.path = from.fullPath
+      // console.log(from)
+      // router.push(from.fullPath)
+      router.go(-1)
+    } else {
+      next()
+    }
+  }
   next()
 })
 

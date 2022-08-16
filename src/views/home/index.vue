@@ -37,9 +37,16 @@
         <xtxSwipeVue :images="brands" />
       </div>
       <!-- 猜你喜欢 -->
-      <div class="like">
-        <xtxGoodsVue class="title" title="----猜你喜欢----" :goods="goods"/>
-      </div>
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="onLoad"
+      >
+        <div class="like">
+          <xtxGoodsVue class="title" title="----猜你喜欢----" :goods="goods"/>
+        </div>
+      </van-list>
     </main>
   </div>
 </template>
@@ -61,7 +68,11 @@ export default {
       hots: [],
       brands: [],
       goods: [],
-      news: []
+      news: [],
+      loading: false,
+      finished: false,
+      list: [],
+      num: 0
     }
   },
   methods: {
@@ -114,11 +125,31 @@ export default {
         const res = await findLike()
 
         res.result.forEach(item => {
-          this.goods.push(...item.goods)
+          // this.goods.push(...item.goods)
+          this.list.push(...item.goods)
         })
+        // console.log(this.list)
+        for (this.num; this.num < 6; this.num++) {
+          // console.log(this.num)
+          this.goods.push(this.list[this.num])
+        }
       } catch (error) {
         Toast(error)
       }
+    },
+    onLoad () {
+      this.loading = true
+      const i = this.num + 6
+      setTimeout(() => {
+        for (this.num; this.num < i; this.num++) {
+          // console.log(this.num)
+          this.goods.push(this.list[this.num])
+          if (this.goods.length === this.list.length) {
+            this.finished = true
+          }
+        }
+        this.loading = false
+      }, 1000)
     }
 
   },

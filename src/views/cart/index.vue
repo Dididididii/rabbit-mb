@@ -40,7 +40,7 @@
     </div>
     <!-- 底部下单栏 -->
     <div class="sub">
-      <van-submit-bar :price="num" button-text="提交订单" @submit="onSubmit">
+      <van-submit-bar :disabled="$store.state.cart.list.length===0" :price="num" button-text="提交订单" @submit="onSubmit">
     </van-submit-bar>
     </div>
   </div>
@@ -48,6 +48,7 @@
 
 <script>
 import xtxNavBarVue from '@/components/xtx-navBar.vue'
+import { Toast } from 'vant'
 export default {
   name: 'xtx-cart',
   components: { xtxNavBarVue },
@@ -58,7 +59,12 @@ export default {
   },
   methods: {
     onSubmit () {
-      console.log('提交了')
+      if (this.$store.state.user.profile.token) {
+        console.log('提交订单')
+      } else {
+        Toast('请先等再结算')
+        this.$router.push('/login')
+      }
     },
     delList (id) {
       console.log(1)
