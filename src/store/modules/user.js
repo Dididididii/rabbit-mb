@@ -9,12 +9,16 @@ export default {
         account: '',
         mobile: '',
         token: ''
-      }
+      },
+      collect: []
     }
   },
   mutations: {
     setUser (state, payload) {
       state.profile = payload
+    },
+    setCollect (state, payload) {
+      state.collect = payload
     }
   }
 }

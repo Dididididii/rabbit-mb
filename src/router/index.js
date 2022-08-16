@@ -9,6 +9,7 @@ import My from '@/views/my'
 import Set from '@/views/set'
 import Goods from '@/views/goods'
 import Login from '@/views/Login'
+import Collect from '@/views/collect'
 Vue.use(VueRouter)
 
 const routes = [
@@ -32,11 +33,8 @@ const routes = [
         path: '/my',
         component: My
       }
+
     ]
-  },
-  {
-    path: '/set',
-    component: Set
   },
   {
     path: '/goods',
@@ -45,6 +43,14 @@ const routes = [
   {
     path: '/login',
     component: Login
+  },
+  {
+    path: '/set',
+    component: Set
+  },
+  {
+    path: '/collect',
+    component: Collect
   }
 
 ]

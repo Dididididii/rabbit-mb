@@ -27,7 +27,7 @@
       </div>
       <div class="icon">
         <div class="label">
-          <a href="#">
+          <a href="javascript:;" @click="$router.push('/collect')">
             <van-icon name="star-o" size="1.5rem" color="#000" />
             <span class="title">收藏</span>
           </a>
@@ -98,11 +98,14 @@
 </template>
 
 <script>
+import { userMember } from '@/api/user'
+
 export default {
   name: 'xtx-my',
   data () {
     return {
-      photo: this.$store.state.user.profile.avatar || 'http://yjy-xiaotuxian-dev.oss-cn-beijing.aliyuncs.com/avatar/2022-05-14/f6bafcfc-a840-4a81-9907-939ee56dff4d.jpg'
+      photo: this.$store.state.user.profile.avatar || 'http://yjy-xiaotuxian-dev.oss-cn-beijing.aliyuncs.com/avatar/2022-05-14/f6bafcfc-a840-4a81-9907-939ee56dff4d.jpg',
+      config: { page: 1, pageSize: 10, collectType: 1 }
     }
   },
   methods: {
@@ -110,6 +113,17 @@ export default {
       if (!this.$store.state.user.profile.token) {
         this.$router.push('/login')
       }
+    },
+    async getMembers () {
+      const res = await userMember(this.config)
+      // console.log(res.result.items)
+      this.$store.commit('user/setCollect', res.result.items)
+      console.log(this.$store.state.user.collect)
+    }
+  },
+  created () {
+    if (this.$store.state.user.profile.token) {
+      this.getMembers()
     }
   }
 }

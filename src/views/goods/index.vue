@@ -221,7 +221,8 @@
             <van-goods-action>
                 <van-goods-action-icon icon="shop-o" text="店铺" />
                 <van-goods-action-icon icon="chat-o" text="客服" />
-                <van-goods-action-icon icon="star" text="已收藏" color="#ff5000" />
+                <van-goods-action-icon v-if="collect" icon="star" text="已收藏" color="#ff5000" @click="collects" />
+                <van-goods-action-icon v-else icon="star-o" text="收藏" @click="collects" />
                 <van-goods-action-button @click="btn" type="warning" text="加入购物车" />
                 <van-goods-action-button @click="btn" type="danger" text="立即购买" />
             </van-goods-action>
@@ -244,9 +245,11 @@
 </template>
 
 <script>
+import { addMember, userMember, delMember } from '@/api/user'
 import xtxSwipeVue from '@/components/xtx-swipe.vue'
 import { findGoods, findRelevant } from '@/api/product'
 import { Toast } from 'vant'
+
 export default {
   name: 'xtx-goods',
   components: { xtxSwipeVue },
@@ -273,7 +276,9 @@ export default {
       goods: {
         // 数据结构见下方文档
         picture: ''
-      }
+      },
+      collect: false,
+      config: { page: 1, pageSize: 10, collectType: 1 }
     }
   },
   methods: {
@@ -356,11 +361,50 @@ export default {
       })
       this.show = false
       Toast('加入购物车成功,请在购物车里查看')
+    },
+    async collects () {
+      // console.log(this.$route.query.id)
+      if (!this.collect) {
+        const config = {
+          collectType: 1,
+          collectObjectIds: []
+        }
+        config.collectObjectIds.push(this.$route.query.id)
+        await addMember(config)
+        this.collect = true
+        Toast('收藏成功')
+      // console.log(res)
+      } else {
+        const config = {
+          type: 1,
+          ids: []
+        }
+        config.ids.push(this.$route.query.id)
+        await delMember(config)
+        this.collect = false
+        Toast('取消收藏成功')
+      }
+    },
+    async getMembers () {
+      const res = await userMember(this.config)
+      // console.log(res.result.items)
+      this.$store.commit('user/setCollect', res.result.items)
+      console.log(this.$store.state.user.collect)
     }
   },
-  created () {
+  async created () {
     this.getGoods()
     this.getRelevants()
+    await this.getMembers()
+    const i = this.$store.state.user.collect.filter(item => item.id === this.$route.query.id)
+    if (i.length > 0) {
+      this.collect = true
+      // console.log('已收藏')
+    } else {
+      this.collect = false
+      // console.log('未收藏')
+    }
+    // console.log(i)
   },
   watch: {
     $route: {

@@ -62,7 +62,7 @@ export default {
       if (this.$store.state.user.profile.token) {
         console.log('提交订单')
       } else {
-        Toast('请先等再结算')
+        Toast('请先登录再结算商品')
         this.$router.push('/login')
       }
     },
