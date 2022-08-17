@@ -118,7 +118,7 @@ export default {
       const res = await userMember(this.config)
       // console.log(res.result.items)
       this.$store.commit('user/setCollect', res.result.items)
-      console.log(this.$store.state.user.collect)
+      // console.log(this.$store.state.user.collect)
     }
   },
   created () {

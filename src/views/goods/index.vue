@@ -364,46 +364,57 @@ export default {
     },
     async collects () {
       // console.log(this.$route.query.id)
-      if (!this.collect) {
-        const config = {
-          collectType: 1,
-          collectObjectIds: []
+      if (this.$store.state.user.profile.token) { // 判断有无登录
+        if (!this.collect) {
+          const config = {
+            collectType: 1,
+            collectObjectIds: []
+          }
+          config.collectObjectIds.push(this.$route.query.id)
+          await addMember(config)
+          this.collect = true
+          Toast('收藏成功')
+          // console.log(res)
+        } else {
+          const config = {
+            type: 1,
+            ids: []
+          }
+          config.ids.push(this.$route.query.id)
+          await delMember(config)
+          this.collect = false
+          Toast('取消收藏成功')
         }
-        config.collectObjectIds.push(this.$route.query.id)
-        await addMember(config)
-        this.collect = true
-        Toast('收藏成功')
-      // console.log(res)
-      } else {
-        const config = {
-          type: 1,
-          ids: []
-        }
-        config.ids.push(this.$route.query.id)
-        await delMember(config)
-        this.collect = false
-        Toast('取消收藏成功')
+      } else { // 未登录
+        this.$router.push('/login')
+        Toast('请先登录')
       }
     },
     async getMembers () {
       const res = await userMember(this.config)
       // console.log(res.result.items)
       this.$store.commit('user/setCollect', res.result.items)
-      console.log(this.$store.state.user.collect)
+      // console.log(this.$store.state.user.collect)
     }
   },
   async created () {
     this.getGoods()
     this.getRelevants()
-    await this.getMembers()
-    const i = this.$store.state.user.collect.filter(item => item.id === this.$route.query.id)
-    if (i.length > 0) {
-      this.collect = true
+    // 判断有无登录
+    if (this.$store.state.user.profile.token) {
+      await this.getMembers()
+      const i = this.$store.state.user.collect.filter(item => item.id === this.$route.query.id)
+      if (i.length > 0) {
+        this.collect = true
       // console.log('已收藏')
+      } else {
+        this.collect = false
+      // console.log('未收藏')
+      }
     } else {
       this.collect = false
-      // console.log('未收藏')
     }
+
     // console.log(i)
   },
   watch: {
