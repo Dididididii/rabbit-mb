@@ -27,7 +27,7 @@
       </div>
       <div class="icon">
         <div class="label">
-          <a href="javascript:;" @click="$router.push('/collect')">
+          <a href="javascript:;" @click="collect">
             <van-icon name="star-o" size="1.5rem" color="#000" />
             <span class="title">收藏</span>
           </a>
@@ -99,6 +99,7 @@
 
 <script>
 import { userMember } from '@/api/user'
+import { Toast } from 'vant'
 
 export default {
   name: 'xtx-my',
@@ -119,6 +120,17 @@ export default {
       // console.log(res.result.items)
       this.$store.commit('user/setCollect', res.result.items)
       // console.log(this.$store.state.user.collect)
+    },
+    collect () {
+      // 判断有无登录
+      if (this.$store.state.user.profile.token) {
+        // 有登录
+        this.$router.push('/collect')
+      } else {
+        // 无登录
+        this.$router.push('/login')
+        Toast('请先登录')
+      }
     }
   },
   created () {
