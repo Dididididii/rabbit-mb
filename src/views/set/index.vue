@@ -11,7 +11,7 @@
     </header>
     <main>
       <van-cell-group>
-        <van-cell  is-link>
+        <van-cell  is-link @click="showPopup">
           <!-- 使用 title 插槽来自定义标题 -->
           <template #title>
             <div class="titlebox">
@@ -59,21 +59,104 @@
       <van-cell-group >
         <van-button type="default" block size="small" @click="outto">退出登录</van-button>
       </van-cell-group>
+      <van-popup closeable v-model="show" position="right" :style="{ height: '100%' ,width:'100%' }" >
+        <div style="padding-top:36px">
+          <van-cell-group>
+            <van-cell title="头像" is-link >
+              <template #default>
+                <van-image
+                  width="2rem"
+                  height="2rem"
+                  :src="list.avatar"
+                  fit="cover"
+                  round
+                />
+              </template>
+            </van-cell>
+            <van-cell title="名字" is-link :value="list.nickname" />
+            <van-cell title="性别" is-link :value="list.gender" @click="gendershow=true" />
+            <van-cell title="生日" is-link :value="list.birthday"  @click="dayshow=true" />
+          </van-cell-group>
+        </div>
+      </van-popup>
+      <van-popup position="bottom" v-model="dayshow">
+        <van-datetime-picker
+          v-model="currentDate"
+          type="date"
+          title="选择年月日"
+          :min-date="minDate"
+          :max-date="maxDate"
+          @confirm="setBirthday"
+          @cancel="dayshow=false"
+        />
+      </van-popup>
+      <van-popup position="bottom" v-model="gendershow">
+        <van-picker
+          title="性别"
+          show-toolbar
+          :columns="columns"
+          @confirm="onConfirm"
+          @cancel="gendershow=false"
+        />
+      </van-popup>
     </main>
+
   </div>
 </template>
 
 <script>
 import { Toast } from 'vant'
-
+import { getuser, updatebirthday } from '@/api/user'
+import dayjs from 'dayjs'
 export default {
   name: 'xtx-set',
+  data () {
+    return {
+      show: false,
+      dayshow: false,
+      gendershow: false,
+      list: [],
+      columns: ['男', '女'],
+      minDate: new Date(1950, 0, 1),
+      maxDate: new Date(2050, 12, 31),
+      currentDate: new Date()
+    }
+  },
   methods: {
     outto () {
       this.$store.commit('user/setUser', {})
       Toast('退出成功')
       this.$router.push('/my')
+    },
+    showPopup () {
+      this.show = true
+    },
+    async getUser () {
+      const res = await getuser()
+      // console.log(res)
+      this.list = res.result
+    },
+    async setBirthday (val) {
+      const day = dayjs(val).format('YYYY-MM-DD')
+      // console.log(day)
+      // console.log(this.list)
+      this.list.birthday = day
+      await updatebirthday(this.list)
+      this.getUser()
+      this.dayshow = false
+      Toast('信息修改成功')
+    },
+    async onConfirm (value) {
+      this.list.gender = value
+      await updatebirthday(this.list)
+      this.getUser()
+      this.gendershow = false
+      Toast('信息修改成功')
+      // Toast(`当前值：${value}`)
     }
+  },
+  created () {
+    this.getUser()
   }
 }
 </script>

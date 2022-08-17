@@ -26,3 +26,20 @@ export const addMember = (config) => {
 export const delMember = (config) => {
   return request('/member/collect/batch', 'DELETE', config)
 }
+
+/**
+ * 获取用户信息
+ * @returns Promise
+ */
+export const getuser = () => {
+  return request('/member/profile', 'get')
+}
+
+/**
+ * 修改用户生日
+ *  @param {String} list - 用户信息
+ * @returns Promise
+ */
+export const updatebirthday = (list) => {
+  return request('/member/profile', 'put', list)
+}
