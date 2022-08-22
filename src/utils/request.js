@@ -5,6 +5,7 @@
 import axios from 'axios'
 import router from '@/router'
 import store from '@/store'
+import { Toast } from 'vant'
 
 // 导出基准地址，原因：其他地方不是通过axios发请求的地方用上基准地址
 export const baseURL = 'https://apipc-xiaotuxian-front.itheima.net'
@@ -27,6 +28,16 @@ instance.interceptors.request.use(config => {
   }
   return config
 }, err => {
+  // 获取错误信息中包含的请求配置信息和响应数据
+  const { response } = err
+
+  // 判断 HTTP 状态码是否为 401，即 token 不正确造成的授权问题
+  if (response.status === 401) {
+    store.commit('user/setUser', {})
+    router.push('/login')
+    Toast('登录过期，请重新登录.')
+  }
+
   return Promise.reject(err)
 })
 
