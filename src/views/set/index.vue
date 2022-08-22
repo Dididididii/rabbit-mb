@@ -202,12 +202,12 @@ export default {
     },
     test () {
       const cos = new COS({
-        SecretId: 'AKIDlKeiV1GEvLUNyIL7cqmSrzrRlpc8NL2S',
-        SecretKey: 'B5i3E8l6BzWnnWyB8pFOGrCF1WljQq0s'
+        SecretId: '',
+        SecretKey: ''
       })
       cos.putObject({
-        Bucket: 'di0414-1309672163',
-        Region: 'ap-guangzhou',
+        Bucket: '', // 桶名称
+        Region: 'ap-', // 桶地区
         Key: this.filename,
         StorageClass: 'STANDARD',
         Body: this.selectedFile, // 上传文件对象
