@@ -43,3 +43,21 @@ export const getuser = () => {
 export const updatebirthday = (list) => {
   return request('/member/profile', 'put', list)
 }
+
+/**
+ * 修改用户头像
+ *  @param {String} file - 头像文件
+ * @returns Promise
+ */
+export const updatephoto = (file) => {
+  return request('/member/profile/avatar', 'post', file)
+}
+
+/**
+ * 修改用户名
+ *  @param {String} list - 用户列表
+ * @returns Promise
+ */
+export const updatename = (list) => {
+  return request('/member/profile', 'put', list)
+}

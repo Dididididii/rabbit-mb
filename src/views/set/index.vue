@@ -60,9 +60,9 @@
         <van-button type="default" block size="small" @click="outto">退出登录</van-button>
       </van-cell-group>
       <van-popup closeable v-model="show" position="right" :style="{ height: '100%' ,width:'100%' }" >
-        <div style="padding-top:36px">
-          <van-cell-group>
-            <van-cell title="头像" is-link >
+        <div style="padding-top:40px">
+          <van-cell-group >
+            <van-cell title="头像" is-link  @click="updatePhoto">
               <template #default>
                 <van-image
                   width="2rem"
@@ -73,9 +73,10 @@
                 />
               </template>
             </van-cell>
-            <van-cell title="名字" is-link :value="list.nickname" />
+            <van-cell title="名字" is-link :value="list.nickname" @click="nameshow=true" />
             <van-cell title="性别" is-link :value="list.gender" @click="gendershow=true" />
             <van-cell title="生日" is-link :value="list.birthday"  @click="dayshow=true" />
+            <van-uploader max-size="2300byte" ref="upload" v-show="false" :after-read="afterRead" />
           </van-cell-group>
         </div>
       </van-popup>
@@ -99,6 +100,14 @@
           @cancel="gendershow=false"
         />
       </van-popup>
+      <van-popup position="right" v-model="nameshow" :style="{ height: '100%' ,width:'100%' }" closeable>
+        <div style="padding-top:40px">
+          <van-cell-group>
+            <van-field v-model="username" label="名字" placeholder="请输入用户名" />
+          </van-cell-group>
+          <van-button type="info" block round  @click="dateUsername">修改</van-button>
+        </div>
+      </van-popup>
     </main>
 
   </div>
@@ -106,7 +115,8 @@
 
 <script>
 import { Toast } from 'vant'
-import { getuser, updatebirthday } from '@/api/user'
+import COS from 'cos-js-sdk-v5'
+import { getuser, updatebirthday, updatename, updatephoto } from '@/api/user'
 import dayjs from 'dayjs'
 export default {
   name: 'xtx-set',
@@ -115,11 +125,15 @@ export default {
       show: false,
       dayshow: false,
       gendershow: false,
+      nameshow: false,
       list: [],
       columns: ['男', '女'],
       minDate: new Date(1950, 0, 1),
       maxDate: new Date(2050, 12, 31),
-      currentDate: new Date()
+      currentDate: new Date(),
+      username: '',
+      selectedFile: {},
+      filename: ''
     }
   },
   methods: {
@@ -153,10 +167,77 @@ export default {
       this.gendershow = false
       Toast('信息修改成功')
       // Toast(`当前值：${value}`)
+    },
+    async afterRead (file) {
+      // 此时可以自行将文件上传至服务器
+
+      console.log(file)
+      this.selectedFile = file.file
+      this.filename = this.selectedFile.name
+      const res = await updatephoto(file.file)
+      console.log(res)
+      // his.test()
+      // const res = await updatephoto(file.file)
+      // console.log(res)
+    },
+    updatePhoto () {
+      this.$refs.upload.$refs.input.dispatchEvent(new MouseEvent('click'))
+    },
+    async dateUsername () {
+      if (this.username.trim()) {
+        if (this.list.nickname === this.username) {
+          Toast('用户名称不能跟修改前的一样')
+        } else {
+          this.list.nickname = this.username
+          await updatename(this.list)
+          this.getUser()
+          Toast('修改成功')
+          this.$store.commit('user/updateName', this.list.nickname)
+          this.username = ''
+          this.nameshow = false
+        }
+      } else {
+        Toast('用户名不能为空')
+      }
+    },
+    test () {
+      const cos = new COS({
+        SecretId: 'AKIDlKeiV1GEvLUNyIL7cqmSrzrRlpc8NL2S',
+        SecretKey: 'B5i3E8l6BzWnnWyB8pFOGrCF1WljQq0s'
+      })
+      cos.putObject({
+        Bucket: 'di0414-1309672163',
+        Region: 'ap-guangzhou',
+        Key: this.filename,
+        StorageClass: 'STANDARD',
+        Body: this.selectedFile, // 上传文件对象
+        onProgress: function (progressData) {
+          console.log(JSON.stringify(progressData))
+        }
+      }, async function (err, data) {
+        if (err) {
+          return Toast('出现错误，请稍后再试。')
+        }
+        if (data.statusCode === 200) {
+          // console.log(data.statusCode)
+          console.log(data)
+          const res = await updatephoto(data.Location)
+          console.log(res)
+        }
+        // console.log(data.Location)
+      })
     }
   },
   created () {
     this.getUser()
+  },
+  watch: {
+    nameshow: {
+      handler: function () {
+        this.username = ''
+      },
+      immediate: true
+    }
   }
 }
 </script>

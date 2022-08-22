@@ -19,6 +19,9 @@ export default {
     },
     setCollect (state, payload) {
       state.collect = payload
+    },
+    updateName (state, payload) {
+      state.profile.nickname = payload
     }
   }
 }
