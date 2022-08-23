@@ -2,7 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import { NavBar, Search, Swipe, SwipeItem, Tabbar, TabbarItem, Grid, GridItem, Image as VanImage, Lazyload, Sticky, TreeSelect, Card, SubmitBar, Checkbox, Icon, Cell, CellGroup, Button, GoodsAction, GoodsActionIcon, GoodsActionButton, Sku, Skeleton, List, Form, Field, Popup, DatetimePicker, Picker, Uploader } from 'vant'
+import { NavBar, Search, Swipe, SwipeItem, Tabbar, TabbarItem, Grid, GridItem, Image as VanImage, Lazyload, Sticky, TreeSelect, Card, SubmitBar, Checkbox, Icon, Cell, CellGroup, Button, GoodsAction, GoodsActionIcon, GoodsActionButton, Sku, Skeleton, List, Form, Field, Popup, DatetimePicker, Picker, Uploader, DropdownMenu, DropdownItem, PullRefresh } from 'vant'
+Vue.use(PullRefresh)
+Vue.use(DropdownMenu)
+Vue.use(DropdownItem)
 Vue.use(Uploader)
 Vue.use(Picker)
 Vue.use(DatetimePicker)

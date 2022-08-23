@@ -1,8 +1,8 @@
 <template>
 <div class="goodsbox">
-    <xtxTitleVue :text="text"  :title="title"/>
-    <van-grid :border="true" :column-num="2" :gutter="5">
-    <van-grid-item v-for="good in goods" :key="good.id" :to="`/goods?id=${good.id}`">
+    <xtxTitleVue v-if="title!=''" :text="text"  :title="title"/>
+    <van-grid :border="true" :column-num="2" :gutter="5" v-if="goods.length>0">
+    <van-grid-item  v-for="good in goods" :key="good.id" :to="`/goods?id=${good.id}`">
       <div class="box">
           <a href="javascript:;" class="img">
               <van-image fit="cover" :src="good.picture" />

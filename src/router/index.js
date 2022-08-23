@@ -10,6 +10,7 @@ import Set from '@/views/set'
 import Goods from '@/views/goods'
 import Login from '@/views/Login'
 import Collect from '@/views/collect'
+import Sub from '@/views/sub'
 Vue.use(VueRouter)
 
 const routes = [
@@ -51,8 +52,11 @@ const routes = [
   {
     path: '/collect',
     component: Collect
+  },
+  {
+    path: '/sub',
+    component: Sub
   }
-
 ]
 
 const router = new VueRouter({

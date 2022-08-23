@@ -8,7 +8,7 @@
         <van-tree-select height="90vh" :items="list" :main-active-index.sync="active"  >
         <template #content>
           <van-grid :column-num="4" :gutter="10" :icon-size="54">
-            <a href="#" v-for="item in list[active].children" :key="item.id"><van-grid-item :icon="item.picture" :text="item.name" /></a>
+            <a href="javascript:;" v-for="item in list[active].children" :key="item.id"><van-grid-item :to="`/sub?id=${item.id}`" :icon="item.picture" :text="item.name" /></a>
             <!-- <a href="#"><van-grid-item icon="photo-o" text="文字" /></a>
             <a href="#"><van-grid-item icon="photo-o" text="文字" /></a>
             <a href="#"><van-grid-item icon="photo-o" text="文字" /></a> -->
