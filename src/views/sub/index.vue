@@ -2,9 +2,9 @@
     <div>
         <xtxNavBarVue :leftArrow="true" :fixed="true" title="商品" />
         <div class="list-box">
-            <van-dropdown-menu z-index="999999">
-                <van-dropdown-item v-model="value1" :options="option1" />
-                <van-dropdown-item v-model="value2" :options="option2" />
+            <van-dropdown-menu >
+                <van-dropdown-item v-model="value1" :options="option1" @change="onChange" />
+                <van-dropdown-item v-model="value2" :options="option2" @change="onChange" />
             </van-dropdown-menu>
             <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
               <van-list
@@ -58,9 +58,8 @@ export default {
   methods: {
     async getSub () {
       const res = await finSubList(this.config)
-
       this.list.push(...res.result.items)
-      console.log(this.list)
+      // console.log(this.list)
       this.getCounts = res.result.counts
     },
     async onLoad () {
@@ -84,6 +83,19 @@ export default {
       this.list = []
       this.onLoad()
       this.refreshing = false
+    },
+    onChange (val) {
+      const config = {
+        categoryId: +this.$route.query.id, // 分类id
+        page: 1,
+        pageSize: 10
+      }
+      this.config = config
+      if (val === 2) {
+        this.config = { ...this.config, onlyDiscount: true }
+      }
+      this.list = []
+      this.getSub()
     }
   },
   created () {
