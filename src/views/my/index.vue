@@ -4,8 +4,8 @@
         <div class="photo">
           <van-image
             round
-            width="3rem"
-            height="3rem"
+            width="48px"
+            height="48px"
             :src="photo"
           />
         </div>
@@ -28,14 +28,14 @@
       <div class="icon">
         <div class="label">
           <a href="javascript:;" @click="collect">
-            <van-icon name="star-o" size="1.5rem" color="#000" />
+            <van-icon name="star-o" size="24px" color="#000" />
             <span class="title">收藏</span>
           </a>
           <a href="#">
-            <van-icon name="shop-collect-o" size="1.5rem" color="#000" />
+            <van-icon name="shop-collect-o" size="24px" color="#000" />
             <span class="title">订阅店铺</span>
           </a><a href="#">
-            <van-icon name="underway-o" size="1.5rem" color="#000" />
+            <van-icon name="underway-o" size="24px" color="#000" />
             <span class="title">足迹</span>
           </a>
         </div>
@@ -47,28 +47,28 @@
           </h3>
           <a href="">
             <span>全部</span>
-            <van-icon name="arrow" size="0.01rem" />
+            <van-icon name="arrow" size="0.16px" />
           </a>
         </div>
         <div class="iconbtn">
           <a href="#">
-            <van-icon name="credit-pay" size="1.5rem" color="#000" />
+            <van-icon name="credit-pay" size="24px" color="#000" />
             <span class="title">待付款</span>
           </a>
           <a href="#">
-            <van-icon name="send-gift-o" size="1.5rem" color="#000" />
+            <van-icon name="send-gift-o" size="24px" color="#000" />
             <span class="title">待发货</span>
           </a>
           <a href="#">
-            <van-icon name="logistics" size="1.5rem" color="#000" />
+            <van-icon name="logistics" size="24px" color="#000" />
             <span class="title">待收货</span>
           </a>
           <a href="#">
-            <van-icon name="chat-o" size="1.5rem" color="#000" />
+            <van-icon name="chat-o" size="24px" color="#000" />
             <span class="title">待评价</span>
           </a>
           <a href="#">
-            <van-icon name="after-sale" size="1.5rem" color="#000" />
+            <van-icon name="after-sale" size="24px" color="#000" />
             <span class="title">退款/售后</span>
           </a>
         </div>
@@ -81,15 +81,15 @@
         </div>
         <div class="iconbtn">
           <a href="#">
-            <van-icon name="service-o" size="1.5rem" color="rgb(254,71,49)" />
+            <van-icon name="service-o" size="24px" color="rgb(254,71,49)" />
             <span class="title">官方客服</span>
           </a>
           <a href="#">
-            <van-icon name="gift-o" size="1.5rem" color="rgb(254,71,49)" />
+            <van-icon name="gift-o" size="24px" color="rgb(254,71,49)" />
             <span class="title">试用领取</span>
           </a>
           <a href="#">
-            <van-icon name="vip-card-o" size="1.5rem" color="rgb(254,71,49)" />
+            <van-icon name="vip-card-o" size="24px" color="rgb(254,71,49)" />
             <span class="title">店铺会员</span>
           </a>
         </div>
@@ -145,6 +145,7 @@ export default {
 .mybox{
   background: rgb(240,233,224);
   height: 92vh;
+
   .outerbox{
     display: flex;
     padding-top: 15px;
@@ -154,6 +155,7 @@ export default {
     .name{
       margin-left: 20px;
       flex: 1;
+      font-size: 0.4rem;
       .phonename{
         margin: 0;
         font-weight: 550;
@@ -185,7 +187,7 @@ export default {
 
   }
   .card{
-    height: 105px;
+    height: 2.5rem;
     background-color: #fff;
     margin: 15px 8px;
     border-radius: 3.2vw;

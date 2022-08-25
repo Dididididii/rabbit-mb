@@ -2,7 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import { NavBar, Search, Swipe, SwipeItem, Tabbar, TabbarItem, Grid, GridItem, Image as VanImage, Lazyload, Sticky, TreeSelect, Card, SubmitBar, Checkbox, Icon, Cell, CellGroup, Button, GoodsAction, GoodsActionIcon, GoodsActionButton, Sku, Skeleton, List, Form, Field, Popup, DatetimePicker, Picker, Uploader, DropdownMenu, DropdownItem, PullRefresh } from 'vant'
+import 'amfe-flexible'
+import { NavBar, Search, Swipe, SwipeItem, Tabbar, TabbarItem, Grid, GridItem, Image as VanImage, Lazyload, Sticky, TreeSelect, Card, SubmitBar, Checkbox, Icon, Cell, CellGroup, Button, GoodsAction, GoodsActionIcon, GoodsActionButton, Sku, Skeleton, List, Form, Field, Popup, DatetimePicker, Picker, Uploader, DropdownMenu, DropdownItem, PullRefresh, Tab, Tabs } from 'vant'
+Vue.use(Tab)
+Vue.use(Tabs)
 Vue.use(PullRefresh)
 Vue.use(DropdownMenu)
 Vue.use(DropdownItem)

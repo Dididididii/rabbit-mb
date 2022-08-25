@@ -15,7 +15,7 @@
             </template>
         </van-nav-bar>
         </header>
-        <main v-if="list.id">
+        <main v-if="list.id" style="margin-top:1.2rem;">
             <div class="goodsitem" >
                 <xtxSwipeVue :indicator="true" :images="list.mainPictures" :preview="true"/>
             </div>
@@ -51,8 +51,8 @@
                                 <van-image
                                     v-for="img in list.specs[0].values"
                                     :key="img.id"
-                                    width="2.5rem"
-                                    height="2.5rem"
+                                    width="40px"
+                                    height="40px"
                                     fit="contain"
                                     :src="img.picture"
                                 />
@@ -108,50 +108,12 @@
                 <div class="card">
                     <div class="top">
                         <h3>宝贝评价</h3>
-                        <a href="#">
+                        <a href="javascript:;" @click="$router.push(`/review?id=${$route.query.id}`)">
                             <span>查看全部</span>
                             <van-icon name="arrow" />
                         </a>
                     </div>
-                    <div class="comments">
-                        <div class="goods">
-                            <div>
-                                <van-image
-                                    round
-                                    width="3rem"
-                                    height="3rem"
-                                    src="https://img01.yzcdn.cn/vant/cat.jpeg"
-                                />
-                            </div>
-                            <div class="text">
-                                <p>曲***6</p>
-                                <p>1个月前</p>
-                            </div>
-                        </div>
-                        <div class="list">
-                            很有分量！颜色太漂亮了很喜欢很喜欢！做工也算比较精细
-                        </div>
-                    </div>
-
-                    <div class="comments">
-                        <div class="goods">
-                            <div>
-                                <van-image
-                                    round
-                                    width="3rem"
-                                    height="3rem"
-                                    src="https://img01.yzcdn.cn/vant/cat.jpeg"
-                                />
-                            </div>
-                            <div class="text">
-                                <p>曲***6</p>
-                                <p>1个月前</p>
-                            </div>
-                        </div>
-                        <div class="list">
-                            很有分量！颜色太漂亮了很喜欢很喜欢！做工也算比较精细
-                        </div>
-                    </div>
+                    <xtxReviewsListVue :hide="true" class="list" v-for="i in 2" :key="i" />
                 </div>
             </div>
 
@@ -249,10 +211,10 @@ import { addMember, userMember, delMember } from '@/api/user'
 import xtxSwipeVue from '@/components/xtx-swipe.vue'
 import { findGoods, findRelevant } from '@/api/product'
 import { Toast } from 'vant'
-
+import xtxReviewsListVue from '@/components/xtx-reviewsList.vue'
 export default {
   name: 'xtx-goods',
-  components: { xtxSwipeVue },
+  components: { xtxSwipeVue, xtxReviewsListVue },
   data () {
     return {
       value: '',
@@ -480,6 +442,7 @@ export default {
         display:flex;
         // justify-content: space-between;
         margin-bottom: 10px;
+        font-size: 0.4rem;
         .type{
             color:#999;
         }
@@ -521,29 +484,6 @@ export default {
     }
 }
 
-.comments{
-    .goods{
-        display: flex;
-        margin-left: 10px;
-        .text{
-            margin-left: 10px;
-            p{
-                margin:0;
-            }
-            p:last-child{
-                color:#999;
-                font-size: 14px;
-            }
-        }
-    }
-    .list{
-        padding:10px;
-        /*下面设置文本内容为单行，超出隐藏并显示三个点*/
-        overflow:hidden;
-        text-overflow:ellipsis;
-        white-space:nowrap;
-    }
-}
 .columnlist{
     width: 103px;
     overflow: hidden;

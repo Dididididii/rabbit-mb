@@ -15,8 +15,8 @@
       <template #thumb>
           <van-image
             @click="$router.push(`/goods?id=${item.goodsId}`)"
-            width="5.5rem"
-            height="5.5rem"
+            width="88px"
+            height="88px"
             fit="cover"
             :src="item.img"
           />
@@ -30,8 +30,8 @@
     <div class="nothave" v-else>
       <div class="box">
         <van-image
-        width="10rem"
-        height="10rem"
+        width="160px"
+        height="160px"
         fit="contain"
         :src="require('@/assets/imgs/nothave.png')"
       />
@@ -94,13 +94,13 @@ export default {
   .sub{
 
     .van-submit-bar{
-      margin-bottom: 50px;
+      margin-bottom: 1.66667rem;
     }
   }
 
   .goods{
     padding-bottom: 10px;
-    padding-top:50px;
+    padding-top:1.2rem;
   }
   .nothave{
     height:76vh;
@@ -111,6 +111,7 @@ export default {
       p{
         margin:0;
         color:#999;
+        font-size: 0.4rem;
       }
     }
   }

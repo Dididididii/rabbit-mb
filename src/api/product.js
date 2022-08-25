@@ -14,3 +14,11 @@ export const findGoods = (id) => {
 export const findRelevant = (id) => {
   return request('/goods/relevant', 'get', { id })
 }
+
+/**
+ * 获取商品的评价统计信息
+ * @param {String} id - 商品ID
+ */
+export const findCommentInfoByGoods = (id) => {
+  return request('/evaluate', 'get', { id })
+}

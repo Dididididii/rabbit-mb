@@ -169,7 +169,8 @@ header {
     .btn{
         background:linear-gradient(to right, #FF8D0E, #FF5000);
         width: 64px;
-        height: 32px;
+        height: 0.7rem;
+        line-height: 0.7rem;
         border-radius: 20px;
         text-align: center;
         color:#fff;

@@ -20,8 +20,8 @@
         <div class="nothave" v-else>
           <div class="box">
             <van-image
-            width="10rem"
-            height="10rem"
+            width="160px"
+            height="160px"
             fit="contain"
             :src="require('@/assets/imgs/nothave.png')"
           />
@@ -82,6 +82,7 @@ export default {
         margin:0;
         text-align: center;
         color:#999;
+        font-size: 0.4rem;
       }
     }
   }

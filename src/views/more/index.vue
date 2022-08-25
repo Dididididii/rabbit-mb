@@ -76,6 +76,6 @@ export default {
 
 <style lang="less" scoped>
 .box {
-  padding-top:50px;
+  padding-top:1.2rem;
 }
 </style>

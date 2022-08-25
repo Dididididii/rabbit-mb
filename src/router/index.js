@@ -8,9 +8,10 @@ import Cart from '@/views/cart'
 import My from '@/views/my'
 import Set from '@/views/set'
 import Goods from '@/views/goods'
-import Login from '@/views/Login'
+import Login from '@/views/login'
 import Collect from '@/views/collect'
 import Sub from '@/views/sub'
+import Reviews from '@/views/reviews'
 Vue.use(VueRouter)
 
 const routes = [
@@ -56,6 +57,10 @@ const routes = [
   {
     path: '/sub',
     component: Sub
+  },
+  {
+    path: '/review',
+    component: Reviews
   }
 ]
 

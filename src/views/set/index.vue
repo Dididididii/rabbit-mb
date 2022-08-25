@@ -9,7 +9,7 @@
       @click-left="$router.go(-1)"
     />
     </header>
-    <main>
+    <main style="margin-top: 1.2rem;">
       <van-cell-group>
         <van-cell  is-link @click="showPopup">
           <!-- 使用 title 插槽来自定义标题 -->
@@ -17,8 +17,8 @@
             <div class="titlebox">
               <van-image
               round
-              width="3rem"
-              height="3rem"
+              width="48px"
+              height="48px"
               :src="$store.state.user.profile.avatar"
             />
             <div>
@@ -65,8 +65,8 @@
             <van-cell title="头像" is-link  @click="updatePhoto">
               <template #default>
                 <van-image
-                  width="2rem"
-                  height="2rem"
+                  width="32px"
+                  height="32px"
                   :src="list.avatar"
                   fit="cover"
                   round
