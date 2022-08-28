@@ -67,6 +67,8 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
+  // base: './', // 项目发布接口
+  // base:'/ldx/', //项目发布接口2
   routes
 })
 
@@ -74,6 +76,9 @@ router.beforeEach((to, from, next) => {
   document.body.scrollTop = 0
   document.documentElement.scrollTop = 0
   window.pageYOffset = 0
+  if (to.meta.title) {
+    document.title = '小兔鲜商城'
+  }
   // console.log(to.path)
   // console.log(from.fullPath)
   if (to.path === '/login') {

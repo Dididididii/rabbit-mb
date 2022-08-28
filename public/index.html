@@ -3,13 +3,47 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!-- <meta name="viewport" content="width=device-width,initial-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
     <!-- 引入样式 -->
     <% for(var css of htmlWebpackPlugin.options.cdn.css) { %>
       <link rel="stylesheet" href="<%=css%>">
     <% } %>
+    <script>
+      function isMobile(){
+        if(window.navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)) {
+            return true; // 移动端
+        }else{
+            return false; // PC端
+        }
+        // var sUserAgent = navigator.userAgent.toLowerCase();
+        // var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+        // var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+        // var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+        // var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+        // var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+        // var bIsAndroid = sUserAgent.match(/android/i) == "android";
+        // var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+        // var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+        // if (!(bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) ){    
+        //   // window.open("http://dididididii.xyz/");
+        //   window.location = 'http://dididididii.xyz/'
+        // }
+
+      }
+      // isMobile()
+      if(isMobile()){
+        if(window.location.href !=="http://m.dididididii.xyz/"){
+          window.location = "http://m.dididididii.xyz/";
+        }
+      } else {
+        if(window.location.href ==="http://m.dididididii.xyz/"){
+          window.location = "http://dididididii.xyz/";
+        }
+      }
+    </script>
   </head>
   <body>
     <noscript>
@@ -21,5 +55,6 @@
       <script src="<%=js%>"></script>
     <% } %>
     <!-- built files will be auto injected -->
+    
   </body>
 </html>

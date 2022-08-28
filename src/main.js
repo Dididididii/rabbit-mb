@@ -42,7 +42,7 @@ Vue.use(TabbarItem)
 Vue.use(VanImage)
 
 Vue.config.productionTip = false
-
+document.title = '小兔鲜商城'
 new Vue({
   router,
   store,

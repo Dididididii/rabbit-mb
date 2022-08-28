@@ -6,6 +6,18 @@ let cdn = {
 }
 module.exports = defineConfig({
   transpileDependencies: true,
+  publicPath: './',
+  assetsDir: 'static',
+  lintOnSave: true,
+  productionSourceMap: false,
+  devServer: {
+    open: true,
+    host: '0.0.0.0',
+    proxy: 8080,
+    https: false,
+    hotOnly: false,
+    proxu: null
+  },
   chainWebpack: (config) => {
     if (process.env.NODE_ENV === 'production') {
       if (process.env.npm_config_report) {
